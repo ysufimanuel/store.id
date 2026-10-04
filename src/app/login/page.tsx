@@ -22,6 +22,12 @@ function LoginForm() {
     const { data, error } = await getSupabase().auth.signInWithPassword({ email, password });
     if (error) {
       setLoading(false);
+      if (error.code === "email_not_confirmed") {
+        return toast(
+          "Email belum diverifikasi 📧 Cek inbox/spam dan klik link verifikasi dari Supabase sebelum login.",
+          "error"
+        );
+      }
       return toast("Login gagal: " + error.message, "error");
     }
     const { data: p } = await getSupabase()
