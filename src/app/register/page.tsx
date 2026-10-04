@@ -38,7 +38,10 @@ export default function RegisterPage() {
     });
     setLoading(false);
     if (error) return toast("Registrasi gagal: " + error.message, "error");
-    toast("Akun berhasil dibuat! Silakan masuk.");
+
+    toast(
+      `Akun berhasil dibuat! 📧 Cek inbox/spam ${email} dan klik link verifikasi sebelum login.`
+    );
     router.push("/login");
   };
 
