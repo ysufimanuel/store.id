@@ -8,4 +8,3 @@ firestore-debug*.log
 *.pem
 *.key
 .firebase
-*.json
