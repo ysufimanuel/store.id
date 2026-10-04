@@ -14,6 +14,26 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [needsVerification, setNeedsVerification] = useState(false);
+  const [resending, setResending] = useState(false);
+
+  const resendVerification = async () => {
+    if (!isSupabaseConfigured) return toast("Supabase belum dikonfigurasi", "error");
+    if (!email) return toast("Masukkan email terlebih dahulu", "error");
+
+    setResending(true);
+    const { error } = await getSupabase().auth.resend({
+      type: "signup",
+      email,
+    });
+    setResending(false);
+
+    if (error) {
+      return toast("Gagal mengirim ulang: " + error.message, "error");
+    }
+
+    toast("Email verifikasi berhasil dikirim ulang. Cek inbox/spam. 📧");
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,8 +43,9 @@ function LoginForm() {
     if (error) {
       setLoading(false);
       if (error.code === "email_not_confirmed") {
+        setNeedsVerification(true);
         return toast(
-          "Email belum diverifikasi 📧 Cek inbox/spam dan klik link verifikasi dari Supabase sebelum login.",
+          "Email belum diverifikasi 📧 Cek inbox/spam atau kirim ulang email verifikasi.",
           "error"
         );
       }
@@ -48,7 +69,10 @@ function LoginForm() {
         <form onSubmit={submit} className="space-y-4">
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="nama@email.com" />
+            <Input id="email" type="email" required value={email} onChange={(e) => {
+              setEmail(e.target.value);
+              setNeedsVerification(false);
+            }} placeholder="nama@email.com" />
           </div>
           <div>
             <Label htmlFor="password">Password</Label>
@@ -57,6 +81,17 @@ function LoginForm() {
           <Button type="submit" className="w-full" loading={loading}>
             Masuk
           </Button>
+          {needsVerification && (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              loading={resending}
+              onClick={resendVerification}
+            >
+              Kirim ulang email verifikasi
+            </Button>
+          )}
         </form>
         <p className="mt-4 text-center text-sm text-muted-foreground">
           Belum punya akun?{" "}
