@@ -7,4 +7,5 @@ firebase-debug*.log
 firestore-debug*.log
 *.pem
 *.key
-.firebase/
+.firebase
+*.json
