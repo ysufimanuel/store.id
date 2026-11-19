@@ -1109,3 +1109,30 @@ Computer Science / Software Development enthusiast focused on:
 This project is currently intended for **portfolio and educational purposes**.
 
 Commercial usage and redistribution may be subject to change as the project evolves.
+
+
+---
+
+## Implementation status
+
+The current source tree includes these application areas:
+
+- Customer storefront, product detail, search, cart, account registration/login, orders, and chat.
+- Business workspace pages for dashboard, sales, purchases, POS, products, stock, finance, and settings.
+- Supabase browser/server clients and a PostgreSQL schema in `supabase/schema.sql`.
+
+A route or database table in the repository is not, by itself, proof of production readiness. End-to-end behavior depends on valid Supabase environment variables, the deployed schema, Row Level Security policies, and testing with separate customer and business roles.
+
+### Roadmap vs. verified implementation
+
+Capabilities described as targets or planned features (for example, offline transaction synchronization, QR ordering, payment-provider integrations, and tax integrations) should be treated as roadmap items until their full workflows are implemented and tested.
+
+## Local development
+
+1. Install Node.js compatible with the Next.js 14 project.
+2. Run `npm ci`.
+3. Copy `.env.example` to `.env.local` and provide a Supabase project URL and publishable/anon key. Keep service-role credentials server-side only.
+4. Run `npm run dev`.
+5. Run `npm run build` before deployment.
+
+Generated Next.js output in `.next/` is intentionally excluded from Git. Commit source files, lockfiles, and configuration, not local build caches.

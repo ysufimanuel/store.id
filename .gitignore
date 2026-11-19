@@ -8,3 +8,16 @@ firestore-debug*.log
 *.pem
 *.key
 .firebase
+
+# Generated output and local tooling
+.next/
+out/
+build/
+coverage/
+.turbo/
+.vercel/
+node_modules/
+.env*
+!.env.example
+*.log
+.DS_Store
